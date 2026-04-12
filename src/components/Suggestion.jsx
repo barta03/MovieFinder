@@ -24,7 +24,7 @@ const Suggestion = ({section_name,url}) => {
         const movieArray = data.results;
         movieArray.reverse();
         setMovieData(movieArray)
-        console.log(movieArray);
+        // console.log(movieArray);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -49,9 +49,9 @@ const Suggestion = ({section_name,url}) => {
           {movieData.map((movie,i) => {
             let l=""
             if(i===0){
-              l="ml-4"
-            }else if(i===9){
-              l='mr-4'
+              l="hover:ml-4"
+            }else if(i===19){
+              l='hover:mr-4'
             }
             return (
               <Card
