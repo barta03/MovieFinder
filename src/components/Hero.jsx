@@ -98,7 +98,7 @@ const Hero = () => {
   }, [movieSet.length]);
 
   return (
-    <div className="mt-10">
+    <div className="">
       <div
         onClick={() => handleHeroClick(movieSet[index]?.id)}
         className="w-full h-[90vh] relative bg-slate-950 "
@@ -107,7 +107,8 @@ const Hero = () => {
 
         {video === "" ? (
           <img
-            className={`h-full w-full object-cover object-center aspect-video `}
+          loading="lazy"
+            className={`h-full w-full object-cover object-center aspect-video`}
             src={`https://image.tmdb.org/t/p/original${movieSet[index]?.backdrop_path}`}
             alt=""
           />
@@ -119,9 +120,10 @@ const Hero = () => {
           ></iframe>
         )}
         
-        <div className={`peer w-1/4 h-3/4 z-10 absolute left-18 bottom-1/2 translate-y-1/2 flex flex-col justify-start gap-5 selection:bg-white selection:text-pink-700 ${video!=="" ?"opacity-0 hover:opacity-100 transition-all duration-1200":"opacity-100 transition-all duration-4000" }`}>
+        <div className={`peer w-1/4 h-3/4 z-10 absolute left-18 bottom-1/2 translate-y-1/2 flex flex-col justify-start gap-5 selection:bg-white selection:text-pink-700 ${video!=="" ?"opacity-0 hover:opacity-100 transition-all duration-4000":"opacity-100 transition-all duration-4000" }`}>
           <div className="h-1/2 self-start flex items-center justify-center">
             <img
+            loading="lazy"
               className="w-full object-cover object-center scale-95 hover:scale-110 transition-all duration-500"
               src={`https://image.tmdb.org/t/p/original${movieSet[index]?.logo_path}`}
               alt=""

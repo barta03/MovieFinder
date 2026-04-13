@@ -44,7 +44,7 @@ const Suggestion = ({section_name,url}) => {
       </div>
       <div className="relative">
         <div className="absolute left-0 top-0 h-full w-20 bg-linear-to-r  from-sky-100 dark:from-slate-950 to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 h-full w-20 bg-linear-to-l from-sky-100 blur-xs  dark:from-slate-950  to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute -right-2 top-0 h-full w-20 bg-linear-to-l from-sky-100 blur-xs dark:from-slate-950  to-transparent z-10 pointer-events-none"></div>
         <div className="relative flex justify-start items-center mt-4 gap-3 overflow-x-auto [scrollbar-width:none] pt-5 pb-16 snap-x snap-mandatory scroll-smooth">
           {movieData.map((movie,i) => {
             let l=""
