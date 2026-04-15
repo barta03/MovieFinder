@@ -28,8 +28,10 @@ const Movies = () => {
         // movieArray.reverse();
         setMovieData(movieArray);
         console.log(movieArray);
+        
       })
       .catch((err) => console.error(err));
+      
 
   }, []);
 

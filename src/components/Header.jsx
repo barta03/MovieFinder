@@ -66,19 +66,29 @@ const Header2 = () => {
           >
             Series
           </NavLink>
-          <Search className="mx-3" />
+          <NavLink className={({ isActive }) =>
+              `text-lg ${isActive ? "ttext-white  scale-110" : "text-neutral-400 hover:text-shadow-md/70 hover:text-shadow-pink-700 hover:scale-105 transition-all duration-300"}`
+            }
+            to={"/search"}
+            prefetch="intent">
+            <button className=" py-3 cursor-pointer rounded-full">
+              <Search className="mx-3" />
+            </button>
+          </NavLink>
         </div>
         <div className="flex justify-center items-center gap-2">
-          <button
-            onClick={handleThemeChange}
-            className="cursor-pointer p-2  transition-transform duration-200 hover:-rotate-12 active:rotate-40 "
-          >
-            {themeDark ? (
-              <Sun className="hover:fill-pink-700 hover:stroke-pink-700 " />
-            ) : (
-              <MoonIcon className="hover:fill-pink-700 hover:stroke-pink-700" />
-            )}
-          </button>
+
+            <button
+              onClick={handleThemeChange}
+              className="cursor-pointer p-2  transition-transform duration-200 hover:-rotate-12 active:rotate-40 "
+            >
+              {themeDark ? (
+                <Sun className="hover:fill-pink-700 hover:stroke-pink-700 " />
+              ) : (
+                <MoonIcon className="hover:fill-pink-700 hover:stroke-pink-700" />
+              )}
+            </button>
+
           <div className="size-8 rounded-full bg-radial-[at_50%_75%] from-sky-200 via-blue-400 to-indigo-900 to-90% hover:scale-104 cursor-pointer"></div>
         </div>
       </div>

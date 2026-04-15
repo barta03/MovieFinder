@@ -1,6 +1,6 @@
-import { CircleSmall, Star } from "lucide-react";
+import { CircleSmall, Play, Star, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Cast from "./Cast";
 import Trailers from "./Trailers";
 import Recommendations from "./Recommendations";
@@ -10,6 +10,18 @@ const MovieInfo = () => {
   const [movieDetail, setMovieDetail] = useState({});
   const [readMore, setReadMore] = useState(false);
   const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
+  const [overlay, setOverlay] = useState("");
+
+  const handleTrailerClick = () => {
+    // if (setOverlay == "") {
+    //   setOverlay("");
+    //   console.log(overlay);
+    // } else {
+    setOverlay(`https://bcine.app/embed/movie/${movieId}`);
+    console.log(overlay);
+    // }
+    // return;
+  };
 
   useEffect(() => {
     // window.scrollTo(0,0)
@@ -44,6 +56,24 @@ const MovieInfo = () => {
   return (
     <>
       <div className=" bg-slate-950 fixed inset-0 -z-10 pointer-events-none"></div>
+      {overlay !== "" && (
+        <div
+          onDoubleClick={() => setOverlay("")}
+          className=" backdrop-blur-2xl h-screen w-screen fixed inset-0 z-500 flex items-center justify-center"
+        >
+          <X onClick={() => setOverlay("")} className="text-white size-10 absolute top-10 right-20 stroke-3 fill-white cursor-pointer " />
+          <div className="w-[90%] flex items-center justify-center rounded-3xl overflow-hidden" mx-auto>
+            <iframe
+              src={`https://bcine.app/embed/movie/${movieId}`}
+              width="100%"
+              height="100%"
+              allowFullScreen
+              allow="autoplay; encrypted-media"
+              className="border-0 aspect-video"
+            ></iframe>
+          </div>
+        </div>
+      )}
       <div className="relative min-h-screen text-white -mt-18 pb-30">
         {/* <div>{movieId}</div> */}
         <div className="relative">
@@ -57,7 +87,7 @@ const MovieInfo = () => {
               loading="lazy"
             />
           </div>
-          <div className="absolute left-16 bottom-0 flex flex-col  gap-8">
+          <div className="absolute left-16 bottom-0 flex flex-col gap-8">
             <div className="w-150 flex flex-col justify-center items-center gap-6">
               <div className="h-[60] flex justify-start items-center w-full">
                 <img
@@ -86,6 +116,15 @@ const MovieInfo = () => {
                     </React.Fragment>
                   ))}
               </div>
+              {/* <Link className="self-start" to={`/movie/${movieId}/watch`}> */}
+              <button
+                onClick={() => handleTrailerClick()}
+                className="px-6 py-3 bg-neutral-200 text-neutral-900 rounded-2xl font-semibold cursor-pointer mb-2 flex justify-center items-center gap-2 text-lg self-start"
+              >
+                <Play className="text-black fill-black" />
+                Play
+              </button>
+              {/* </Link> */}
             </div>
             <div className="min-w-120 rounded-xl bg-white/4 border border-white/6  backdrop-blur-sm px-6 py-3">
               <div className="flex justify-start items-center gap-4 text-neutral-300">
@@ -114,13 +153,13 @@ const MovieInfo = () => {
           </div>
         </div>
         <div>
-          <Cast vidType={"movie"} movieId = {movieId} />
+          <Cast vidType={"movie"} movieId={movieId} />
         </div>
         <div>
-          <Trailers vidType={"movie"} movieId = {movieId}/>
+          <Trailers vidType={"movie"} movieId={movieId} />
         </div>
         <div>
-          <Recommendations vidType={"movie"} movieId = {movieId}/> 
+          <Recommendations vidType={"movie"} movieId={movieId} />
         </div>
       </div>
     </>

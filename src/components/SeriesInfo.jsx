@@ -85,6 +85,12 @@ const MovieInfo = () => {
                     </React.Fragment>
                   ))}
               </div>
+              {/* <Link className="self-start" to={`/tv/${seriesId}/watch`}>
+                <button className="px-6 py-3 bg-neutral-200 text-neutral-900 rounded-2xl font-semibold cursor-pointer mb-2 flex justify-center items-center gap-2 text-lg">
+                  <Play className="text-black fill-black"/>
+                  Play
+                </button>
+              </Link> */}
             </div>
             <div className="min-w-120 rounded-xl bg-white/4 border border-white/6  backdrop-blur-sm px-6 py-3">
               <div className="flex justify-start items-center gap-4 text-neutral-300">

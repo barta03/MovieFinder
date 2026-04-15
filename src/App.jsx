@@ -1,4 +1,11 @@
-import { BrowserRouter, Outlet, Route, Routes, ScrollRestoration, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Outlet,
+  Route,
+  Routes,
+  ScrollRestoration,
+  useLocation,
+} from "react-router-dom";
 import Home from "./components/Home";
 import Movies from "./components/Movies";
 import Series from "./components/Series";
@@ -7,20 +14,31 @@ import Footer from "./components/Footer";
 import MovieInfo from "./components/MovieInfo";
 import SeriesInfo from "./components/SeriesInfo";
 import { useLayoutEffect } from "react";
+import MovieWatch from "./components/MovieWatch";
+import Search from "./components/Search";
 
 
+// import SeriesWatch from "./components/SeriesWatch";
 
 function App() {
-  const Wrapper = ({children}) => {
-  const location = useLocation();
-  useLayoutEffect(() => {
-    document.documentElement.scrollTo(0, 0);
-  }, [location.pathname]);
-  return children
-} 
+  const Wrapper = ({ children }) => {
+    const location = useLocation();
+    useLayoutEffect(() => {
+      document.documentElement.scrollTo(0, 0);
+    }, [location.pathname]);
+    return children;
+  };
+  const MainLayout = () => (
+    <>
+      <Header />
+      <Outlet />
+      <Footer />
+    </>
+  );
+
   return (
     <>
-      <BrowserRouter>
+      {/* <BrowserRouter>
         <Wrapper>
           <Header/>
           <Routes>
@@ -32,6 +50,22 @@ function App() {
             <Route path="/tv/:seriesId" element={<SeriesInfo />} />
           </Routes>
           <Footer/>
+        </Wrapper>
+      </BrowserRouter> */}
+      <BrowserRouter>
+        <Wrapper>
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/movie" element={<Movies />} />
+              <Route path="/movie/:movieId" element={<MovieInfo />} />
+              {/* <Route path="/movie/:movieId/watch" element={<MovieWatch />} /> */}
+              <Route path="/tv" element={<Series />} />
+              <Route path="/tv/:seriesId" element={<SeriesInfo />} />
+              <Route path="/search" element={<Search />} />
+              {/* <Route path="/tv/:seriesId/watch" element={<SeriesWatch />} /> */}
+            </Route>
+          </Routes>
         </Wrapper>
       </BrowserRouter>
     </>
