@@ -44,6 +44,7 @@ const Header2 = () => {
               `text-lg ${isActive ? "text-white  scale-110" : "text-neutral-400 hover:text-shadow-md/70 hover:text-shadow-pink-700 hover:scale-105 transition-all duration-300"}`
             }
             to={"/"}
+            prefetch="intent"
           >
             Home
           </NavLink>
@@ -51,7 +52,8 @@ const Header2 = () => {
             className={({ isActive }) =>
               `text-lg ${isActive ? "text-white  scale-110" : "text-neutral-400 hover:text-shadow-md/70 hover:text-shadow-pink-700 hover:scale-105 transition-all duration-300"}`
             }
-            to={"/movies"}
+            to={"/movie"}
+            prefetch="intent"
           >
             Movie
           </NavLink>
@@ -59,7 +61,8 @@ const Header2 = () => {
             className={({ isActive }) =>
               `text-lg ${isActive ? "ttext-white  scale-110" : "text-neutral-400 hover:text-shadow-md/70 hover:text-shadow-pink-700 hover:scale-105 transition-all duration-300"}`
             }
-            to={"/series"}
+            to={"/tv"}
+            prefetch="intent"
           >
             Series
           </NavLink>

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import colors from "tailwindcss/colors";
 import { Shader, Plasma } from "shaders/react";
 import ThinCard from "./ThinCard";
+import { Link } from "react-router-dom";
 
 const Series = () => {
-  const [movieData, setMovieData] = useState([]);
+  const [seriesData, setSeriesData] = useState([]);
 
   const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
   useEffect(() => {
@@ -22,10 +23,10 @@ const Series = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        const movieArray = data.results;
-        // movieArray.reverse();
-        setMovieData(movieArray);
-        console.log(movieArray);
+        const seriesArray = data.results;
+        // seriesArray.reverse();
+        setSeriesData(seriesArray);
+        console.log(seriesArray);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -61,21 +62,23 @@ const Series = () => {
             Discover Your Next Favorite Series
           </p>
           <div className="grid grid-cols-6 mt-10 gap-x-6 gap-y-12">
-            {movieData.map((movie) => (
-              <ThinCard
-                className={""}
-                key={movie.id}
-                poster_path={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
-                title={movie.title}
-                rating={movie.vote_average.toFixed(1)}
-                year={movie.first_air_date.slice(0, 4)}
-              />
+            {seriesData.map((series) => (
+              <Link key={series.id} to={`/tv/${series.id}`}>
+                <ThinCard
+                  className={""}
+                  key={series.id}
+                  poster_path={`https://image.tmdb.org/t/p/original${series?.poster_path}`}
+                  title={series.title}
+                  rating={series.vote_average.toFixed(1)}
+                  year={series.first_air_date.slice(0, 4)}
+                />
+              </Link>
             ))}
           </div>
         </div>
       </div>
 
-      {/* <div className="mt-100 text-white text-5xl">Movies</div> */}
+      {/* <div className="mt-100 text-white text-5xl">seriess</div> */}
     </>
   );
 };

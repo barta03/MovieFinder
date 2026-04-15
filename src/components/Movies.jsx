@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import colors from "tailwindcss/colors";
 import { Shader, Plasma } from "shaders/react";
 import ThinCard from "./ThinCard";
+import { Link } from "react-router-dom";
 
 const Movies = () => {
   const [movieData, setMovieData] = useState([]);
+
 
   const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
   useEffect(() => {
@@ -28,6 +30,7 @@ const Movies = () => {
         console.log(movieArray);
       })
       .catch((err) => console.error(err));
+
   }, []);
 
   return (
@@ -62,14 +65,16 @@ const Movies = () => {
           </p>
           <div className="grid grid-cols-6 mt-10 gap-x-6 gap-y-12">
             {movieData.map((movie) => (
-              <ThinCard
-                className={""}
-                key={movie.id}
-                poster_path={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
-                title={movie.title}
-                rating={movie.vote_average.toFixed(1)}
-                year={movie.release_date.slice(0, 4)}
-              />
+              <Link key={movie.id} to={`/movie/${movie.id}`}>
+                <ThinCard
+                  className={""}
+                  key={movie.id}
+                  poster_path={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
+                  title={movie.title}
+                  rating={movie.vote_average.toFixed(1)}
+                  year={movie.release_date.slice(0, 4)}
+                />
+              </Link>
             ))}
           </div>
         </div>

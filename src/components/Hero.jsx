@@ -1,5 +1,6 @@
-import { Calendar, Heart, Star } from "lucide-react";
+import { Calendar, Heart,  Star } from "lucide-react";
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const [movieSet, setMovieSet] = useState([]);
@@ -122,12 +123,15 @@ const Hero = () => {
         
         <div className={`peer w-1/4 h-3/4 z-10 absolute left-18 bottom-1/2 translate-y-1/2 flex flex-col justify-start gap-5 selection:bg-white selection:text-pink-700 ${video!=="" ?"opacity-0 hover:opacity-100 transition-all duration-4000":"opacity-100 transition-all duration-4000" }`}>
           <div className="h-1/2 self-start flex items-center justify-center">
+              <Link key={movieSet[index]?.id} to={`/movie/${movieSet[index]?.id}`}>
+
             <img
             loading="lazy"
               className="w-full object-cover object-center scale-95 hover:scale-110 transition-all duration-500"
               src={`https://image.tmdb.org/t/p/original${movieSet[index]?.logo_path}`}
               alt=""
             />
+            </Link>
           </div>
 
           <div className="flex justify-between items-center text-neutral-200 text-lg tracking-wide font-bold">

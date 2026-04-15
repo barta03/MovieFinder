@@ -10,7 +10,6 @@ const Footer = () => {
           </div>
           <div className="absolute -translate-y-[70%] w-200 opacity-100 group-hover:scale-110 group-hover:opacity-0 transition-all duration-1500">
             <img
-              loading="lazy"
               src="./footer.png"
               className="object-cover object-center -z-1"
               alt=""
@@ -21,7 +20,6 @@ const Footer = () => {
               src="./footer2.png"
               className="object-cover object-center -z-1"
               alt=""
-              loading="lazy"
             />
           </div>
           <h1 className="font-extrabold text-[1300%] text-center tracking-tighter leading-25 z-10 text-slate-950 text-shadow-lg/30 text-shadow-neutral-700/80 font-[Inter] perspective-distant transform-3d block">

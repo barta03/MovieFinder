@@ -1,23 +1,38 @@
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes, ScrollRestoration, useLocation } from "react-router-dom";
 import Home from "./components/Home";
 import Movies from "./components/Movies";
 import Series from "./components/Series";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import MovieInfo from "./components/MovieInfo";
+import SeriesInfo from "./components/SeriesInfo";
+import { useLayoutEffect } from "react";
 
 
 
 function App() {
+  const Wrapper = ({children}) => {
+  const location = useLocation();
+  useLayoutEffect(() => {
+    document.documentElement.scrollTo(0, 0);
+  }, [location.pathname]);
+  return children
+} 
   return (
     <>
       <BrowserRouter>
-        <Header/>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/series" element={<Series />} />
-        </Routes>
-        <Footer/>
+        <Wrapper>
+          <Header/>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/movie" element={<Movies />} />
+            <Route path="/movie/:movieId" element={<MovieInfo />} />
+            <Route path="/movie/:movieId/watch" element={<MovieWatch />} />
+            <Route path="/tv" element={<Series />} />
+            <Route path="/tv/:seriesId" element={<SeriesInfo />} />
+          </Routes>
+          <Footer/>
+        </Wrapper>
       </BrowserRouter>
     </>
   );
