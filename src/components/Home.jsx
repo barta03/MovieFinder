@@ -13,7 +13,7 @@ function Home() {
 
       <div className="bg-linear-to-b from-black to-[#FB04FF] pb-10 ">
         <div
-          className="dark:selection:bg-sky-100 selection:bg-slate-950 selection:text-pink-500 bg-sky-100 py-14 
+          className="dark:selection:bg-sky-100 selection:bg-slate-950 selection:text-pink-500 z-100 bg-sky-100 py-14 
         rounded-[5rem] dark:bg-slate-950"
         >
           <Suggestion

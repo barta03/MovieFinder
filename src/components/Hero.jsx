@@ -67,8 +67,8 @@ const Hero = () => {
     }
   };
   useEffect(() => {
-  setImageLoaded(false);
-}, [index]);
+    setImageLoaded(false);
+  }, [index]);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -122,7 +122,6 @@ const Hero = () => {
     ? `https://image.tmdb.org/t/p/original${backdrop}`
     : "";
 
-
   useEffect(() => {
     if (!movieSet.length) return;
     startTimer();
@@ -144,12 +143,12 @@ const Hero = () => {
         className="w-full h-[90vh] relative bg-slate-950 "
       >
         {video === "" && (
-          <div className="bg-linear-to-t from-transparent via-slate-950/70 to-slate-950 w-full h-40 absolute top-0"></div>
+          <div className="bg-linear-to-t from-transparent via-slate-950/70 to-slate-950 w-full h-42 absolute -top-2"></div>
         )}
         {video === "" && (
           <div
             onClick={(e) => e.stopPropagation()}
-            className="absolute text-white tex-lg top-1/2 -translate-y-1/2 right-8 flex flex-col items-center justify-center gap-2 bg-black/10 backdrop-blur-xl py-2 px-2 rounded-full rotate-180 ring-1 ring-neutral-200/20"
+            className="absolute text-white tex-lg top-1/2 -translate-y-1/2 right-8 flex flex-col items-center justify-center gap-2 bg-black/10 backdrop-blur-xl py-2 px-2 rounded-full rotate-180 ring-1 ring-neutral-200/20 z-10"
           >
             {Array.from({ length: 5 }, (_, i) => (
               <div
@@ -175,12 +174,19 @@ const Hero = () => {
           </div>
         )}
         {video === "" ? (
-          <div className="relative h-full w-full">
+          <div className="relative h-full w-full overflow-x-clip">
             <img
               onClick={() => handleHeroClick(movieSet[index]?.id)}
-              className={`h-full w-full object-cover object-center aspect-video`}
-              src={`https://image.tmdb.org/t/p/original${movieSet[index]?.backdrop_path}`}
+              className={`h-full w-full object-cover object-center blur-md absolute inset-0 scale-110 -z-1`}
+              src={lowQuality}
               alt=""
+            />
+            <img
+              onClick={() => handleHeroClick(movieSet[index]?.id)}
+              src={highQuality}
+              alt=""
+              onLoad={() => setImageLoaded(true)}
+              className={` h-full w-full object-cover object-center transition-all duration-700 ${true ?"opacity-100 scale-100":"opacity-0 "}`}
             />
           </div>
         ) : (
