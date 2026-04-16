@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Card from "./Card.jsx";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ThinCard from "./ThinCard.jsx";
 
 const Suggestion = ({section_name,url}) => {
   const [movieData, setMovieData] = useState([]);
@@ -56,10 +57,10 @@ const Suggestion = ({section_name,url}) => {
             }
             return (
               <Link key={movie.id} to={`/movie/${movie.id}`}>
-                <Card
+                <ThinCard
                   className={l}
                   key={movie.id}
-                  poster_path={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  poster_path={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
                   title={movie.title}
                   rating={movie.vote_average.toFixed(1)}
                   year={movie.release_date.slice(0,4)}

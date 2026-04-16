@@ -1,16 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import colors from "tailwindcss/colors";
-import { Shader, Plasma } from "shaders/react";
+import { Shader, Plasma, ContourLines } from "shaders/react";
 import ThinCard from "./ThinCard";
 import { Link } from "react-router-dom";
 import { SearchAlert } from "lucide-react";
 import { div } from "three/tsl";
+import { useDebounce } from "../hooks/useDebounce";
 
 const Search = () => {
   const [movieData, setMovieData] = useState([]);
   const [search, setSearch] = useState("");
   const [empty, setEmpty] = useState([]);
   const inputRef = useRef(null);
+
+  const debounce = useDebounce(search);
+  const controllerRef = useRef(null);
 
   const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
   const options = {
@@ -27,22 +31,43 @@ const Search = () => {
     console.log(search);
   };
   useEffect(() => {
+    if (!search) return;
+
+    if (controllerRef.current) {
+      controllerRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    controllerRef.current = controller;
+
     fetch(
-      `https://api.themoviedb.org/3/search/multi?query=${search}&include_adult=false&language=en-US&page=1`,
-      options,
+      `https://api.themoviedb.org/3/search/multi?query=${debounce}&include_adult=false&language=en-US&page=1`,
+      {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${API_TOKEN}`,
+        },
+        signal: controller.signal,
+      },
     )
       .then((res) => res.json())
       .then((data) => {
-        const movieArray = data.results;
+        const movieArray = data.results.filter(
+          (multi) => multi.media_type != "person",
+        );
         // movieArray.reverse();
         setMovieData(movieArray);
         console.log(movieArray);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        err.name = "AbortController"
+        console.error(err);
+      });
   }, [search]);
 
   useEffect(() => {
-    inputRef.current.focus()
+    inputRef.current.focus();
     const fetchAllTrending = async () => {
       const [movieData, tvData] = await Promise.all([
         fetch(
@@ -92,9 +117,12 @@ const Search = () => {
           <h1 className="text-3xl text-white tracking-tighter font-semibold">
             Find your next PEAK
           </h1>
-          <div onClick={() => iconRef.current.focus()} className="bg-white max-w-4xl w-full rounded-full px-6 py-3 flex justify-center items-center gap-3 focus-within:shadow-lg/40 focus-within:ring-2 focus-within:ring-pink-700 focus-within:shadow-white transition-all duration-300">
+          <div
+            onClick={() => inputRef.current.focus()}
+            className="bg-white max-w-4xl w-full rounded-full px-6 py-3 flex justify-center items-center gap-3 focus-within:shadow-lg/40 focus-within:ring-2 focus-within:ring-pink-700 focus-within:shadow-white transition-all duration-300"
+          >
             <SearchAlert
-              onClick={() => iconRef.current.focus()}
+              onClick={() => inputRef.current.focus()}
               className="text-neutral-700 cursor-pointer"
             />
             <input
@@ -114,11 +142,11 @@ const Search = () => {
           <div className="grid grid-cols-6  gap-x-6 gap-y-12">
             {search !== "" &&
               movieData.map((movie) => (
-                <Link key={movie.id} to={`/movie/${movie.id}`}>
+                <Link key={movie.id} to={`/${movie.media_type}/${movie.id}`}>
                   <ThinCard
                     className={""}
                     key={movie?.id}
-                    poster_path={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
+                    poster_path={`https://image.tmdb.org/t/p/w300${movie?.poster_path}`}
                     title={movie?.title}
                     rating={movie?.vote_average?.toFixed(1)}
                     year={movie?.release_date?.slice(0, 4)}
@@ -131,7 +159,7 @@ const Search = () => {
                   <ThinCard
                     className={""}
                     key={movie?.id}
-                    poster_path={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
+                    poster_path={`https://image.tmdb.org/t/p/w300${movie?.poster_path}`}
                     title={movie?.title}
                     rating={movie?.vote_average?.toFixed(1)}
                     year={movie?.release_date?.slice(0, 4)}

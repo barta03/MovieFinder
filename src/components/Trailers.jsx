@@ -1,20 +1,14 @@
 import { Cross, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
-const Trailers = ({ movieId,vidType }) => {
+const Trailers = ({ movieId, vidType }) => {
   const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
   const [trailers, setTrailers] = useState([]);
   const [overlay, setOverlay] = useState("");
 
   const handleTrailerClick = (key) => {
-    // if (setOverlay == "") {
-    //   setOverlay("");
-    //   console.log(overlay);
-    // } else {
-      setOverlay(`https://www.youtube.com/embed/${key}`);
-      console.log(overlay);
-    // }
-    // return;
+    setOverlay(`https://www.youtube.com/embed/${key}`);
+    console.log(overlay);
   };
 
   useEffect(() => {
@@ -45,7 +39,7 @@ const Trailers = ({ movieId,vidType }) => {
       .catch((err) => console.error(err));
   }, [movieId]);
   return (
-    <div className="text-3xl mt-10 max-w-7xl mx-auto flex flex-col justify-center gap-8 ">
+    <div className="text-3xl mt-10 max-w-7xl mx-auto flex flex-col justify-center gap-8 pb-4">
       <h1>Trailers</h1>
       <div className="overflow-x-scroll flex gap-10 [scrollbar-width:none] py-2 -mx-4 px-4">
         {trailers.map((trailer) => (
@@ -67,7 +61,7 @@ const Trailers = ({ movieId,vidType }) => {
           onClick={() => setOverlay("")}
           className=" backdrop-blur-2xl h-screen w-screen fixed inset-0 z-500 flex items-center justify-center"
         >
-          <X className="text-white size-10 absolute top-10 right-20 stroke-3 fill-white cursor-pointer "/>
+          <X className="text-white size-10 absolute top-10 right-20 stroke-3 fill-white cursor-pointer " />
           <div className="w-full flex items-center justify-center rounded-3xl overflow-hidden">
             <iframe
               className="w-3/4 aspect-video z-200 rounded-3xl"

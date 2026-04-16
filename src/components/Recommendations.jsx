@@ -31,7 +31,7 @@ const Recommendations = ({ movieId,vidType }) => {
   }, [movieId,vidType]);
 
   return (
-    <div className=" mt-10 max-w-7xl mx-auto flex flex-col justify-center gap-8 ">
+    <div className=" mt-10 max-w-7xl mx-auto flex flex-col justify-center gap-8 pb-4">
       <h1 className="text-3xl">You Might Also Like</h1>
       <div className="overflow-x-scroll flex gap-10 [scrollbar-width:none] py-2 px-4">
         {recommendations.map((movie) => (
@@ -41,7 +41,7 @@ const Recommendations = ({ movieId,vidType }) => {
 
               className={""}
               key={movie.id}
-              poster_path={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
+              poster_path={`https://image.tmdb.org/t/p/w300${movie?.poster_path}`}
               title={movie.title}
               rating={movie.vote_average.toFixed(1)}
               year={movie?.first_air_date?.slice(0, 4)}

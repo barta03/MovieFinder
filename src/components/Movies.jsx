@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import colors from "tailwindcss/colors";
 import { Shader, Plasma } from "shaders/react";
 import ThinCard from "./ThinCard";
@@ -6,47 +6,66 @@ import { Link } from "react-router-dom";
 
 const Movies = () => {
   const [movieData, setMovieData] = useState([]);
-
-
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false)
+  const observer = useRef();
   const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+  };
+
+  const fetchMovies = async () => {
+    
+    if (loading || !hasMore) return;
+    setLoading(true)
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`,
+        options,
+      );
+      const data = await res.json();
+      setMovieData((prev) => [...prev, ...data.results]);
+      if (page >= data.total_pages) {
+        setHasMore(false);
+      }
+      setPage((prev) => prev + 1);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false)
+  };
   useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${API_TOKEN}`,
-      },
-    };
-
-    fetch(
-      "https://api.themoviedb.org/3/trending/movie/week?language=en-US",
-      options,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const movieArray = data.results;
-        // movieArray.reverse();
-        setMovieData(movieArray);
-        console.log(movieArray);
-        
-      })
-      .catch((err) => console.error(err));
-      
-
+    fetchMovies();
   }, []);
+
+  const lastMovieRef = useCallback(
+    (node) => {
+      if(loading) return
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          fetchMovies();
+        }
+      },{
+        root:null,
+        rootMargin: "0px 0px 300px 0px",
+        threshold:0
+      });
+      if (node) observer.current.observe(node);
+    },
+    [hasMore,loading],
+  );
 
   return (
     <>
       <div className="fixed inset-0 -z-10 pointer-events-none">
         <Shader className="w-full h-full pointer-events-none brightness-100 dark:brightness-80">
-          {/* <FlowingGradient
-            colorB={colors.slate[950]}
-            colorA={colors.pink[600]}
-            distortion={2}
-            seed={10}
-            speed={2}
-            colorSpace="oklch"
-          /> */}
           <Plasma
             density={2.5}
             speed={4}
@@ -66,18 +85,38 @@ const Movies = () => {
             Discover Your Next Favorite Movie
           </p>
           <div className="grid grid-cols-6 mt-10 gap-x-6 gap-y-12">
-            {movieData.map((movie) => (
-              <Link key={movie.id} to={`/movie/${movie.id}`}>
-                <ThinCard
-                  className={""}
-                  key={movie.id}
-                  poster_path={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
-                  title={movie.title}
-                  rating={movie.vote_average.toFixed(1)}
-                  year={movie.release_date.slice(0, 4)}
-                />
-              </Link>
-            ))}
+            {movieData.map((movie, i) => {
+              if (i == movieData.length - 1) {
+                return (
+                  <Link
+                    ref={lastMovieRef}
+                    key={movie.id}
+                    to={`/movie/${movie.id}`}
+                  >
+                    <ThinCard
+                      className={""}
+                      key={movie.id}
+                      poster_path={`https://image.tmdb.org/t/p/w300${movie?.poster_path}`}
+                      title={movie.title}
+                      rating={movie.vote_average.toFixed(1)}
+                      year={movie.release_date.slice(0, 4)}
+                    />
+                  </Link>
+                );
+              }
+              return (
+                <Link key={movie.id} to={`/movie/${movie.id}`}>
+                  <ThinCard
+                    className={""}
+                    key={movie.id}
+                    poster_path={`https://image.tmdb.org/t/p/w300${movie?.poster_path}`}
+                    title={movie.title}
+                    rating={movie.vote_average.toFixed(1)}
+                    year={movie.release_date.slice(0, 4)}
+                  />
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

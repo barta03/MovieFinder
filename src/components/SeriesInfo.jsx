@@ -1,15 +1,19 @@
 import { CircleSmall, Star } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Cast from "./Cast";
 import Trailers from "./Trailers";
 import Recommendations from "./Recommendations";
+import Season from "./Season";
 
 const MovieInfo = () => {
   const { seriesId } = useParams();
   const [seriesDetail, setSeriesDetail] = useState({});
   const [readMore, setReadMore] = useState(false);
+  const seasonRef = useRef(null);
   const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
+
+  useEffect(() => {});
 
   useEffect(() => {
     const options = {
@@ -20,12 +24,13 @@ const MovieInfo = () => {
       },
     };
 
-    fetch(
-      `https://api.themoviedb.org/3/tv/${seriesId}?language=en-US`,
-      options,
-    )
+    fetch(`https://api.themoviedb.org/3/tv/${seriesId}?language=en-US`, options)
       .then((res) => res.json())
-      .then((data) => setSeriesDetail(data))
+      .then((data) => {
+        setSeriesDetail(data);
+        console.log(data.number_of_seasons);
+        seasonRef.current = data.number_of_seasons;
+      })
       .catch((err) => console.error(err));
 
     fetch(`https://api.themoviedb.org/3/tv/${seriesId}/images`, options)
@@ -62,7 +67,7 @@ const MovieInfo = () => {
                 <img
                   loading="lazy"
                   className="object-cover object-bottom-left w-120 "
-                  src={`https://image.tmdb.org/t/p/original${seriesDetail?.logo_path}`}
+                  src={`https://image.tmdb.org/t/p/w500${seriesDetail?.logo_path}`}
                   alt=""
                 />
               </div>
@@ -94,10 +99,13 @@ const MovieInfo = () => {
             </div>
             <div className="min-w-120 rounded-xl bg-white/4 border border-white/6  backdrop-blur-sm px-6 py-3">
               <div className="flex justify-start items-center gap-4 text-neutral-300">
-                <p>{seriesDetail?.first_air_date?.slice(0, 4) || "2023"}-{seriesDetail?.status=="Ended"? seriesDetail?.last_air_date?.slice(0, 4):""}</p>
                 <p>
-                  {seriesDetail.status}
+                  {seriesDetail?.first_air_date?.slice(0, 4) || "2023"}-
+                  {seriesDetail?.status == "Ended"
+                    ? seriesDetail?.last_air_date?.slice(0, 4)
+                    : ""}
                 </p>
+                <p>{seriesDetail.status}</p>
                 <div className="flex items-center justify-center gap-1">
                   <Star className="fill-yellow-400 stroke-0 size-5" />
                   <p>{seriesDetail?.vote_average?.toFixed(1) || 5}</p>
@@ -118,13 +126,17 @@ const MovieInfo = () => {
           </div>
         </div>
         <div>
-          <Cast vidType={"tv"} movieId = {seriesId} />
+          <Cast vidType={"tv"} movieId={seriesId} />
         </div>
         <div>
-          <Trailers vidType={"tv"} movieId = {seriesId}/>
+          <Season seasons={seasonRef.current} seriesId={seriesId} />
         </div>
         <div>
-          <Recommendations vidType={"tv"} movieId = {seriesId}/> 
+          <Trailers vidType={"tv"} movieId={seriesId} />
+        </div>
+
+        <div>
+          <Recommendations vidType={"tv"} movieId={seriesId} />
         </div>
       </div>
     </>

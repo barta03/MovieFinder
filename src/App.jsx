@@ -38,20 +38,6 @@ function App() {
 
   return (
     <>
-      {/* <BrowserRouter>
-        <Wrapper>
-          <Header/>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/movie" element={<Movies />} />
-            <Route path="/movie/:movieId" element={<MovieInfo />} />
-            <Route path="/movie/:movieId/watch" element={<MovieWatch />} />
-            <Route path="/tv" element={<Series />} />
-            <Route path="/tv/:seriesId" element={<SeriesInfo />} />
-          </Routes>
-          <Footer/>
-        </Wrapper>
-      </BrowserRouter> */}
       <BrowserRouter>
         <Wrapper>
           <Routes>
@@ -59,11 +45,11 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/movie" element={<Movies />} />
               <Route path="/movie/:movieId" element={<MovieInfo />} />
-              {/* <Route path="/movie/:movieId/watch" element={<MovieWatch />} /> */}
+
               <Route path="/tv" element={<Series />} />
               <Route path="/tv/:seriesId" element={<SeriesInfo />} />
               <Route path="/search" element={<Search />} />
-              {/* <Route path="/tv/:seriesId/watch" element={<SeriesWatch />} /> */}
+
             </Route>
           </Routes>
         </Wrapper>

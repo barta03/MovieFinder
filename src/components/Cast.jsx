@@ -25,7 +25,7 @@ const Cast = ({ movieId, vidType }) => {
       .catch((err) => console.error(err));
   }, [movieId]);
   return (
-    <div className="text-3xl mt-10 max-w-7xl mx-auto flex flex-col justify-center gap-8 ">
+    <div className="text-3xl mt-10 max-w-7xl mx-auto flex flex-col justify-center gap-8 pb-4">
       <p>Cast</p>
       <div className="overflow-x-scroll flex gap-10 [scrollbar-width:none] py-2 px-4">
         {cast?.slice(0, 15).map((actor) => (
@@ -37,7 +37,7 @@ const Cast = ({ movieId, vidType }) => {
               <img
                 loading="lazy"
                 className="object-cover object-center size-30 rounded-3xl group-hover:scale-90 transition-all duration-300"
-                src={`https://image.tmdb.org/t/p/original${actor.profile_path}`}
+                src={`https://image.tmdb.org/t/p/w300${actor.profile_path}`}
                 alt=""
               />
             </div>

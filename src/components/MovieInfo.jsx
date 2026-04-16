@@ -69,7 +69,7 @@ const MovieInfo = () => {
               height="100%"
               allowFullScreen
               allow="autoplay; encrypted-media"
-              className="border-0 aspect-video"
+              className="border-2 aspect-video border-neutral-500/50 rounded-3xl"
             ></iframe>
           </div>
         </div>
@@ -93,7 +93,7 @@ const MovieInfo = () => {
                 <img
                   loading="lazy"
                   className="object-cover object-bottom-left w-120 "
-                  src={`https://image.tmdb.org/t/p/original${movieDetail?.logo_path}`}
+                  src={`https://image.tmdb.org/t/p/w500${movieDetail?.logo_path}`}
                   alt=""
                 />
               </div>
@@ -119,7 +119,7 @@ const MovieInfo = () => {
               {/* <Link className="self-start" to={`/movie/${movieId}/watch`}> */}
               <button
                 onClick={() => handleTrailerClick()}
-                className="px-6 py-3 bg-neutral-200 text-neutral-900 rounded-2xl font-semibold cursor-pointer mb-2 flex justify-center items-center gap-2 text-lg self-start"
+                className="px-6 py-3 bg-neutral-200 text-neutral-900 rounded-2xl font-semibold cursor-pointer mb-2 flex justify-center items-center gap-2 text-lg self-start hover:scale-105 transition-all duration-300"
               >
                 <Play className="text-black fill-black" />
                 Play

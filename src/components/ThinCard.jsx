@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import React from "react";
 
 const ThinCard = ({ poster_path, title, rating, year, className }) => {
   return (
@@ -26,7 +27,8 @@ const ThinCard = ({ poster_path, title, rating, year, className }) => {
       </div>
 
       <img
-        className="h-full w-full object-cover object-center"
+        className="h-full w-full object-cover object-center blur-sm"
+        onLoad={(e)=>e.target.classList.remove("blur-sm")}
         src={poster_path}
         alt=""
         loading="lazy"
@@ -35,4 +37,4 @@ const ThinCard = ({ poster_path, title, rating, year, className }) => {
   );
 };
 
-export default ThinCard;
+export default React.memo(ThinCard);
